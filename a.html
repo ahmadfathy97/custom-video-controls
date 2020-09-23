@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+    *{padding: 0;margin: 0;box-sizing: border-box;}
+    .videos-container{
+      width: 100%;
+      min-height:100vh;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      grid-gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="videos-container">
+    <custom-video src="school.mp4" controls-bg="rgba(255,255,255, .93)" text-color="#222"></custom-video>
+    <custom-video src="love.mp4" controls-bg="rgba(0,0,0, .93)" text-color="#fff"></custom-video>
+    <custom-video src="school.mp4" controls-bg="rgba(255,255,20, .93)" text-color="rgba(12,12,80)"></custom-video>
+    <custom-video src="love.mp4" controls-bg="#c33" text-color="#222"></custom-video>
+    <custom-video src="school.mp4" controls-bg="#ffcc00" text-color="#0080ff"></custom-video>
+    <custom-video src="love.mp4" controls-bg="white" text-color="black"></custom-video>
+  </div>
+  <script src='custom-video.js'>
+
+  </script>
+</body>
+</html>
