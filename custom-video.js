@@ -36,6 +36,28 @@ class customVideo extends HTMLElement {
         duration = this.shadowRoot.querySelector('#duration');
     let holdingClick = false;
 
+    function playOrPause() {
+      if (videoBox.paused) {
+        videoBox.play();
+        playPause.innerHTML = '<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" viewBox="0 0 24 24" stroke="#0075ff" stroke-width="3" clip-rule="evenodd"><path d="M10 24h-6v-24h6v24zm10 0h-6v-24h6v24zm-11-23h-4v22h4v-22zm10 0h-4v22h4v-22z"/></svg>';
+      } else {
+        videoBox.pause();
+        playPause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M2 24v-24l20 12-20 12z"/></svg>';
+      }
+    }
+
+    function fullScreen() {
+      if (videoBox.requestFullscreen) {
+        videoBox.requestFullscreen();
+      } else if (videoBox.mozRequestFullScreen) { /* Firefox */
+        videoBox.mozRequestFullScreen();
+      } else if (videoBox.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        videoBox.webkitRequestFullscreen();
+      } else if (videoBox.msRequestFullscreen) { /* IE/Edge */
+        videoBox.msRequestFullscreen();
+      }
+    }
+
     if(this.getAttribute('src')){
       videoBox.src = this.getAttribute('src');
     }
@@ -50,6 +72,7 @@ class customVideo extends HTMLElement {
       duration.textContent = currentMin + ':' + currentSec;
       console.log(currentMin, currentSec);
       seekbar.value = 0;
+      videoBox.volume = .5;
     }
 
     //CHECK FOR TH ATTRIBUTES
@@ -62,16 +85,13 @@ class customVideo extends HTMLElement {
     }
 
     //  PLAY OR PAUSE THE VIDEO
-    playPause.addEventListener('click', function () {
-      if (videoBox.paused) {
-        videoBox.play();
-        playPause.innerHTML = '<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" viewBox="0 0 24 24" stroke="#0075ff" stroke-width="3" clip-rule="evenodd"><path d="M10 24h-6v-24h6v24zm10 0h-6v-24h6v24zm-11-23h-4v22h4v-22zm10 0h-4v22h4v-22z"/></svg>';
-      } else {
-        videoBox.pause();
-        playPause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M2 24v-24l20 12-20 12z"/></svg>';
-      }
-    });
+    playPause.addEventListener('click', playOrPause);
 
+    videoBox.addEventListener('click', playOrPause)
+
+
+    // FULL SCREEN
+    videoBox.addEventListener('dblclick', fullScreen)
     //////
     seekbar.addEventListener('mousedown', function () {
       holdingClick = true;
@@ -127,7 +147,7 @@ class customVideo extends HTMLElement {
     videoBox.addEventListener('ended', function () {
       playPause.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M2 24v-24l20 12-20 12z"/></svg>';
     })
-    
+
   }
 }
 
@@ -139,7 +159,7 @@ let style = `<style>
     overflow: hidden;
     --main-color: #0075ff;
     width: auto;
-    height: auto
+    height: 100% !important
   }
   .video-container:hover #controls{
     transform: translate(-50%, 0);
